@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    {% if title %}
+    <title>HBS - {{ title }}</title>
+    {% else %}
+    <title>Hotel Booking System</title>
+    {% endif %}
+  </head>
+  <body
+    style="
+      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3N7CS84BajUH1Um5Q2QtyfrgGJEKV3W-csA&usqp=CAU')
+        no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      width: 100vw;
+    "
+  >
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand font-weight-bold" href="/" style="border-radius: 10px;">Hotel Booking System</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          {% if not login_success %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">Signup</a>
+          </li>
+          {% endif %}
+          {% if login_success %}
+          {% if not isEmployee %}
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="/myBooking">My Bookings</a>
+          </li>
+          {% if isEmployee %}
+          <li class="nav-item">
+            <a class="nav-link" href="/account">Control Panel</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      {% block content %}{% endblock content %}
+    </div>
+  </body>
+</html>

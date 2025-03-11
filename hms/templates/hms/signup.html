@@ -1,0 +1,38 @@
+{% extends "hms/header.html" %}
+
+{% block content %}
+<br><br>
+<div class="container bg-light p-4 rounded border border-secondary" style="width:35%">
+    <form class="m-auto" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="first">First Name</label>
+                <input class="form-control" id="first" name="first" placeholder="First Name">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="last" >Last Name</label>
+                <input class="form-control" id="last" name="last" placeholder="Last Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email1" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Account Type</label>
+            <select class="form-control-sm" name="accType">
+                <option value="customer">Customer</option>
+                <option value="employee">Employee</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-dark btn-lg btn-block">Signup</button>
+    </form>
+</div>
+
+
+{% endblock content %}

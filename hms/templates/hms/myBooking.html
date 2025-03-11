@@ -1,0 +1,45 @@
+{% extends "hms/header.html" %} {% block content %}
+
+<div class="container mt-5 bg-white p-3" style="border-radius: 1rem;">
+  <div class="mb-3">
+    <div class="card-header bg-dark text-white rounded-lg">Your Bookings</div>
+    {% if bookings %} {% for booking in bookings %}
+    <div
+      class="card-body mb-0 mx-2 font-weight-bold"
+    >
+      <p>Hotel: {{booking.hotelName }}</p>
+      <p>Room: {{booking.roomId }}</p>
+      <p>Date: {{booking.date }}</p>
+    </div>
+    {% endfor %} {% else %}
+    <div
+      class="card-body alert alert-danger mb-0 rounded-0 mx-2 font-weight-bold"
+    >
+      You Have No Bookings yet
+      <a href="/" class="text-decoration-none">click here to see hotels</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header bg-dark text-white rounded-lg">Your Waitlist</div>
+    {% if waitlist %} {% for w in waitlist %}
+    <div
+      class="card-body mb-0 mx-2 font-weight-bold"
+    >
+      <p>Waitlist:</p>
+      <p>Hotel ID: {{w.hotelId}}</p>
+      <p>Date: {{w.date}}</p>
+    </div>
+    {% endfor %} {% else %}
+    <div
+      class="card-body alert alert-danger mb-0 mx-2 font-weight-bold"
+    >
+      You Are Not In Any Waitlist
+      <a href="/" class="text-decoration-none">click here to see hotels</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock content %}

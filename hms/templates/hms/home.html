@@ -1,0 +1,79 @@
+{% extends "hms/header.html" %} {% csrf_token %} {% block content %}
+<!-- here is the content of Home page;; don't forget to intend-->
+
+<div class="container-fluid mt-5 w-75">
+  {% if notFound %}
+  <div class="alert alert-warning my-3">The Hotel is not found</div>
+  {% endif %}
+
+  <form class="form-inline d-flex justify-content-center w-100" method="get">
+    <div class="input-group flex-nowrap w-100 w-md-75 w-lg-50">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="addon-wrapping">
+          <button type="submit" class="btn p-1">
+            <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 16 16"
+              class="bi bi-search"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"
+              />
+            </svg>
+          </button>
+        </span>
+      </div>
+      <input
+        type="text"
+        class="form-control p-4"
+        placeholder="Search..."
+        aria-label="Search Hotels"
+        aria-describedby="addon-wrapping"
+        name="search"
+      />
+    </div>
+  </form>
+
+  <div
+    class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4 d-flex justify-content-center mt-3"
+  >
+    {% for hotel in hotels %}
+    <div class="col">
+      <div class="card mb-2" style="width: 100%">
+        <img
+          src="media/{{ hotel.image }}"
+          class="img-thumbnail"
+          style="width: 100%; height: 250px; object-fit: cover"
+        />
+        <div class="card-body">
+          <h5 class="card-title mb-0">{{ hotel.name }}</h5>
+          <p
+            class="card-text text-muted text-uppercase"
+            style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            {{ hotel.address }}
+          </p>
+          <a
+            href="hotel?id={{ hotel.hotelId }}"
+            class="btn btn-dark w-100 font-weight-bold text-uppercase text-white"
+            >See Details</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

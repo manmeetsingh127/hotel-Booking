@@ -1,0 +1,24 @@
+{% extends "hms/header.html" %}
+
+{% block content %}
+<br><br><br><br><br><br><br><br>
+
+<div class="container-fluid bg-light p-4 rounded border border-secondary" style="width:35%;">
+
+    <form class="m-auto" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Email address</label>
+            <input name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+
+        <button type="submit" class="btn btn-dark btn-lg btn-block">Login</button>
+    </form>
+</div>
+
+
+{% endblock content %}

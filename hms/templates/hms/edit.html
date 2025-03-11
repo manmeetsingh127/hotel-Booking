@@ -1,0 +1,60 @@
+{% extends "hms/header.html" %}
+
+{% block content %}
+<br><br><br>
+
+<div class="container bg-light rounded border border-secondary shadow-sm" style="max-width: 500px;">
+    <div class="d-block bg-dark text-white py-2 rounded text-center font-weight-bold display-4">
+        EDIT USER
+    </div>
+    <form class="m-auto p-4" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="first">First Name</label>
+                <input type="text" class="form-control" id="first" name="firstName" placeholder="First Name" value="{{ theAccount.firstName }}" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="last">Last Name</label>
+                <input type="text" class="form-control" id="last" name="lastName" placeholder="Last Name" value="{{ theAccount.lastName }}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" class="form-control" id="email" value="{{ theAccount.email }}" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" id="password" value="{{ theAccount.password }}" required>
+        </div>
+
+        <div class="form-group">
+            {% if theAccount.accountType == 'customer' %}
+                <div class="form-group">
+                    <label>Reward Points</label>
+                    <input type="number" name="rewardPoints" class="form-control" value="{{ theAccount.rewardPoints }}">
+                </div>
+                <label>Account Type</label>
+                <select class="form-control" name="accType">
+                    <option value="customer" selected>Customer</option>
+                    <option value="employee">Employee</option>
+                </select>
+            {% endif %}
+            {% if theAccount.accountType == 'employee' %}
+                <div class="form-group">
+                    <label>Salary</label>
+                    <input type="number" name="salary" class="form-control" value="{{ theAccount.salary }}">
+                </div>
+                <label>Account Type</label>
+                <select class="form-control" name="accType">
+                    <option value="employee" selected>Employee</option>
+                    <option value="customer">Customer</option>
+                </select>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-dark btn-lg btn-block">Submit</button>
+    </form>
+</div>
+
+{% endblock content %}

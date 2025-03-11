@@ -1,0 +1,292 @@
+{% extends "hms/header.html" %}
+
+{% block content %}
+
+<!-- CSRF Token -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+</form>
+
+<div class="bg-dark py-4">
+    <div class="container">
+        <!-- Users Section -->
+        <section id="Accounts" class="mb-5">
+            <h2 class="text-center text-light mb-4">USERS</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-dark text-center">
+                    <thead class="thead-primary">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Account Type</th>
+                            <th scope="col">Salary</th>
+                            <th scope="col">Reward Points</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in accounts %}
+                        <tr>
+                            <th scope="row">{{ account.accountId }}</th>
+                            <td>{{ account.firstName }}</td>
+                            <td>{{ account.lastName }}</td>
+                            <td>{{ account.email }}</td>
+                            <td>{{ account.accountType }}</td>
+                            <td>
+                                {% if account.accountType == 'employee' %}
+                                    {{ account.salary }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>{{ account.rewardPoints }}</td>
+                            <td>
+                                <a href="/edit?id={{ account.accountId }}" class="btn btn-sm btn-secondary me-2">Edit</a>
+                                <a href="/delete?id={{ account.accountId }}" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Hotels Section -->
+        <section id="Hotels" class="mb-5">
+            <h2 class="text-center text-light mb-4">HOTELS</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-dark text-center">
+                    <thead class="thead-primary">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hotel in hotels %}
+                        <tr>
+                            <td>{{ hotel.name }}</td>
+                            <td>{{ hotel.address }}</td>
+                            <td>{{ hotel.desc }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Rooms Section -->
+        <section id="Rooms" class="mb-5">
+            <h2 class="text-center text-light mb-4">ROOMS</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-dark text-center">
+                    <thead class="thead-primary">
+                        <tr>
+                            <th scope="col">Room Type</th>
+                            <th scope="col">Hotel ID</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Availability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in rooms %}
+                        <tr>
+                            <td>{{ room.roomType }}</td>
+                            <td>{{ room.hotelId }}</td>
+                            <td>{{ room.price }}</td>
+                            <td>{{ room.available }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reservations Section -->
+        <section id="Reservations" class="mb-5">
+            <h2 class="text-center text-light mb-4">RESERVATIONS</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-dark text-center">
+                    <thead class="thead-primary">
+                        <tr>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Hotel</th>
+                            <th scope="col">Room ID</th>
+                            <th scope="col">Hotel ID</th>
+                            <th scope="col">Account ID</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reservation in reservations %}
+                        <tr>
+                            <td>{{ reservation.customerName }}</td>
+                            <td>{{ reservation.hotelName }}</td>
+                            <td>{{ reservation.roomId }}</td>
+                            <td>{{ reservation.hotelId }}</td>
+                            <td>{{ reservation.accountId }}</td>
+                            <td>{{ reservation.date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if not reservations %}
+                <div class="alert alert-warning text-center mt-3">No reservations yet</div>
+            {% endif %}
+        </section>
+
+        <!-- Waitlist Section -->
+        <section id="Waitlist" class="mb-5">
+            <h2 class="text-center text-light mb-4">WAITLIST</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-dark text-center">
+                    <thead class="thead-primary">
+                        <tr>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Hotel ID</th>
+                            <th scope="col">Room ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for w in waitlist %}
+                        <tr>
+                            <td>{{ w.customerName }}</td>
+                            <td>{{ w.hotelId }}</td>
+                            <td>{{ w.roomId }}</td>
+                            <td>{{ w.date }}</td>
+                            <td>{{ w.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Forms Section -->
+        <div class="row">
+            <!-- Add Hotel Form -->
+            <div class="col-lg-6 mb-4">
+                <div class="card bg-secondary text-light" style="border-radius: 1rem;">
+                    <div class="card-header bg-primary" style="border-radius: 1rem;">
+                        <h3 class="card-title text-center">HOTEL DETAILS</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="hotelName" class="form-label">Hotel Name</label>
+                                <input type="text" class="form-control" id="hotelName" name="hotelName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hotelAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="hotelAddress" name="hotelAddress" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hotelDesc" class="form-label">Hotel Description</label>
+                                <textarea class="form-control" id="hotelDesc" name="hotelDesc" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hotelImage" class="form-label">Hotel Image <small class="text-danger">(PNG, JPEG, GIF)</small></label>
+                                <input class="form-control" type="file" id="hotelImage" name="image" accept="image/jpeg, image/gif, image/png" required>
+                            </div>
+                            <button type="submit" name="addHotel" class="btn btn-primary w-100" style="border-radius: 1rem;">Add Hotel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Room Form -->
+            <div class="col-lg-6 mb-4">
+                <div class="card bg-secondary text-light" style="border-radius: 1rem;">
+                    <div class="card-header bg-primary" style="border-radius: 1rem;">
+                        <h3 class="card-title text-center">ADD ROOM</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="get">
+                            <div class="mb-3">
+                                <label for="roomType" class="form-label">Room Type Name</label>
+                                <input type="text" class="form-control" id="roomType" name="roomType" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hotelSelect" class="form-label">Hotel</label>
+                                <select class="form-select" id="hotelSelect" name="hotel" required>
+                                    {% for hotel in hotels %}
+                                    <option value="{{ hotel.hotelId }}">{{ hotel.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Set Price</label>
+                                <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="count" class="form-label">Set Room Count</label>
+                                <input type="number" class="form-control" id="count" name="count" min="1" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" style="border-radius: 1rem;">Add Room</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="bg-light">
+
+        <div class="row">
+            <!-- Checkout Customers Form -->
+            <div class="col-lg-6 mb-4">
+                <div class="card bg-secondary text-light" style="border-radius: 1rem;">
+                    <div class="card-header bg-primary" style="border-radius: 1rem;">
+                        <h3 class="card-title text-center">Check Out Customers</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="get">
+                            <div class="mb-3">
+                                <label for="checkoutId" class="form-label">Customer</label>
+                                <select class="form-select" id="checkoutId" name="checkoutId" required>
+                                    {% for reservation in reservations %}
+                                    <option value="{{ reservation.accountId }}">{{ reservation.customerName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" style="border-radius: 1rem;">Check Out</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirm Waitlist Form -->
+            <div class="col-lg-6 mb-4">
+                <div class="card bg-secondary text-light" style="border-radius: 1rem;">
+                    <div class="card-header bg-primary" style="border-radius: 1rem;">
+                        <h3 class="card-title text-center">Confirm Waitlist</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="get">
+                            <div class="mb-3">
+                                <label for="waitlistConfirm" class="form-label">Customer</label>
+                                <select class="form-select" id="waitlistConfirm" name="waitlistConfirm" required>
+                                    {% for w in waitlist %}
+                                        {% if w.status == 'pending' %}
+                                        <option value="{{ w.waitlistId }}">{{ w.waitlistId }} | {{ w.customerName }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" style="border-radius: 1rem;">Confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

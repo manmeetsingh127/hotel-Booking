@@ -1,0 +1,63 @@
+{% extends "hms/header.html" %} {% block content %}
+<!-- here is the content of Home page;; don't forget to intend-->
+<div class="card container my-5 bg-dark text-light p-3" style="border-radius: 1rem;">
+  <img
+    src="media/{{ hotel.image }}"
+    class="card-img-top"
+    style="width: 100%;max-width: fit-content;"
+    alt="image not found"
+  />
+  {% if not rooms %}
+  <div class="alert alert-danger mt-2">
+    <h6 class="text-center mb-0">SORRY! This hotel has no rooms left</h6>
+  </div>
+  {% endif %}
+  <div class="card-body">
+    <h4 class="card-title text-center">{{ hotel.name }}</h4>
+    <h6 class="text-muted text-uppercase text-center">{{ hotel.address }}</h6>
+    <p class="card-text mt-2 text-center">{{ hotel.desc }}</p>
+    <div class="my-3">
+      <form method="post" class="form-group">
+        {% csrf_token %} {% if rooms %}
+        <h5 class="text-center">BOOK ROOMS:</h5>
+        <div class="row justify-content-center">
+          {% for room in rooms %}
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+            <div
+              class="d-block p-2 w-100 bg-success rounded-lg font-weight-bold text-light"
+            >
+              <input
+                id="{{ room.roomId }}"
+                type="radio"
+                name="selectedRoom"
+                value="{{ room.roomId }}"
+              />
+              <label for="{{ room.roomId }}" class="text-left ml-2">
+                {{ room.roomType }} for ₹{{ room.price }}
+              </label>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+            <input class="form-control" type="date" name="selectedDate" />
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+            <select class="form-control">
+              <option>Use money</option>
+              <option>Use reward points</option>
+            </select>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+            <button type="submit" class="btn btn-secondary w-100">
+              Book Now
+            </button>
+          </div>
+        </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
